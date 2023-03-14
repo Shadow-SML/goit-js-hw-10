@@ -17,19 +17,15 @@ refs.input.addEventListener(
 );
 
 function onCountryInputType() {
+  clearResults();
   const typeName = refs.input.value.trim();
-
-  if (typeName === '') {
-    return (refs.list.innerHTML = ''), (refs.info.innerHTML = '');
+  if (!typeName) {
+    return;
   }
 
   fetchCountries(typeName)
     .then(countries => {
-      refs.list.innerHTML = '';
-      refs.info.innerHTML = '';
-
       if (countries.length === 1) {
-        refs.list.insertAdjacentHTML('beforeend', getCountryList(countries));
         refs.info.insertAdjacentHTML('beforeend', getCountryInfo(countries));
       } else if (countries.length >= 10) {
         specificName();
@@ -77,4 +73,9 @@ function specificName() {
   Notiflix.Notify.info(
     `Too many matches found. Please enter a more specific name.`
   );
+}
+
+function clearResults() {
+  refs.list.innerHTML = '';
+  refs.info.innerHTML = '';
 }
